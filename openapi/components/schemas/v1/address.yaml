@@ -1,0 +1,27 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: The unique identifier of the customer.
+  addressLine1:
+    type: string
+    description: The first line of the address.
+    example: 123 Main St.
+  addressLine2:
+    type: string
+    description: The second line of the address.
+    example: Suite 200
+  city:
+    type: string
+    description: The city of the address.
+    example: Springfield
+  state:
+    type: string
+    description: The state of the address.
+    example: IL
+  zipCode:
+    type: string
+    description: The zip code of the address.
+    example: 62701
+  
