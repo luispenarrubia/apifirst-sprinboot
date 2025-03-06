@@ -1,0 +1,27 @@
+get: 
+  tags: 
+    -  Order
+  summary: Get an order by its ID
+  description: Get an order by its ID.
+  operationId: getOrderById
+  parameters: 
+    - $ref: ../../components/parameters/v1/order_id.yaml
+  responses:
+    '200': 
+      description: Success
+      content: 
+        application/json: 
+          schema: 
+            $ref: ../../components/schemas/v1/order.yaml
+    '400':
+      description: Bad Request
+      content: 
+        application/json: 
+          schema: 
+            $ref: ../../components/schemas/Problem.yaml
+    '404':
+      description: Not Found
+      content: 
+        application/json: 
+          schema: 
+            $ref: ../../components/schemas/Problem.yaml
