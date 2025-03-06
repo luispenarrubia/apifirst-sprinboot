@@ -1,4 +1,4 @@
-openapi: 3.1.0º
+openapi: 3.1.0
 info:
   version: 1.0.0
   title: API First with Springboot
@@ -48,6 +48,8 @@ paths:
     $ref: 'paths/v1/customers_{customerId}.yaml'
   '/v1/products':
     $ref: 'paths/v1/products.yaml'
+  '/v1/products/{productId}':
+    $ref: 'paths/v1/products_{productId}.yaml'
 security:
   - basic_auth: []
 components:
