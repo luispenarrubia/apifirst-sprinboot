@@ -11,10 +11,14 @@ properties:
   email:
     type: string
     format: email
+    minLength: 3
+    maxLength: 255
     description: The email address of the customer.
     example: user@domain.com
   phone:
     type: string
+    minLength: 7
+    maxLength: 15
     description: The phone number of the customer.
     example: 555-555-5555
   paymentMethods:

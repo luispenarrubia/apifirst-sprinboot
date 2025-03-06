@@ -6,22 +6,32 @@ properties:
     description: The unique identifier of the customer.
   addressLine1:
     type: string
+    minLength: 3
+    maxLength: 100
     description: The first line of the address.
     example: 123 Main St.
   addressLine2:
     type: string
+    minLength: 3
+    maxLength: 100
     description: The second line of the address.
     example: Suite 200
   city:
     type: string
+    minLength: 3
+    maxLength: 100
     description: The city of the address.
     example: Springfield
   state:
     type: string
-    description: The state of the address.
+    minLength: 2
+    maxLength: 2
+    description: The 2 character state code of the address.
     example: IL
   zipCode:
     type: string
+    minLength: 4
+    maxLength: 10
     description: The zip code of the address.
     example: 62701
   

@@ -6,10 +6,12 @@ properties:
     description: The unique identifier of the payment method.
   displayName:
     type: string
+    minLength: 3
+    maxLength: 100
     description: The display name of the payment method.
     example: Visa
   cardNumber:
-    type: string
+    type: integer
     description: The card number of the payment method.
     example: 4111111111111111
   expiryMonth:
@@ -21,7 +23,7 @@ properties:
     description: The expiry year of the payment method.
     example: 2022
   cvv:
-    type: string
+    type: integer
     description: The CVV of the payment method.
     example: 123
   dateCreated:
