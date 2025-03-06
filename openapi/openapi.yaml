@@ -51,6 +51,8 @@ paths:
     $ref: 'paths/users_{username}.yaml'
   '/v1/customers':
     $ref: 'paths/v1/customers.yaml'
+  '/v1/customers/{customerId}':
+    $ref: 'paths/v1/customers_{customerId}.yaml'
 security:
   - basic_auth: []
 components:
