@@ -1,18 +1,18 @@
 get: 
   tags: 
-    -  Customer
-  summary: Get a customer by its ID
-  description: Get a customer by its ID.
-  operationId: getCustomerById
+    -  Product
+  summary: Get a product by its ID
+  description: Get a product by its ID.
+  operationId: getProductById
   parameters: 
-    - $ref: ../../components/parameters/v1/customer_id.yaml
+    - $ref: ../../components/parameters/v1/product_id.yaml
   responses:
     '200': 
       description: Success
       content: 
         application/json: 
           schema: 
-            $ref: ../../components/schemas/v1/customer.yaml
+            $ref: ../../components/schemas/v1/product.yaml
     '400':
       description: Bad Request
       content: 

@@ -1,4 +1,4 @@
-openapi: 3.1.0º
+openapi: 3.1.0
 info:
   version: 1.0.0
   title: API First with Springboot
@@ -22,6 +22,8 @@ externalDocs:
 tags:
   - name: Customer
     description: Operations about customers.
+  - name: Product
+    description: Operations about products.
   - name: User
     description: "Operations about users."
   - name: Admin
@@ -30,15 +32,6 @@ tags:
     description: "Example operations for retrieving information."
   - name: Tag
     description: "This is a tag description."
-x-tagGroups:
-  - name: General
-    tags:
-      - User
-      - Customer
-      - Info
-  - name: Administration
-    tags:
-      - Admin
 servers:
   - url: https://{tenant}/api/v1
     variables:
@@ -53,6 +46,10 @@ paths:
     $ref: 'paths/v1/customers.yaml'
   '/v1/customers/{customerId}':
     $ref: 'paths/v1/customers_{customerId}.yaml'
+  '/v1/products':
+    $ref: 'paths/v1/products.yaml'
+  '/v1/products/{productId}':
+    $ref: 'paths/v1/products_{productId}.yaml'
 security:
   - basic_auth: []
 components:
