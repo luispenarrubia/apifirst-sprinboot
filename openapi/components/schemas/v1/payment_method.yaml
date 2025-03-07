@@ -1,9 +1,7 @@
 type: object
 properties:
   id:
-    type: string
-    format: uuid
-    description: The unique identifier of the payment method.
+    $ref: ../common/uuid_id.yaml
   displayName:
     type: string
     minLength: 3
@@ -27,13 +25,14 @@ properties:
     description: The CVV of the payment method.
     example: 123
   dateCreated:
-    type: string
-    format: date-time
-    description: The date and time the payment method was created.
-    example: 2021-01-01T12:00:00Z
+    $ref: ../common/iso_timestamp.yaml
   dateUpdated:
-    type: string
-    format: date-time
-    description: The date and time the payment method was last updated.
-    example: 2021-01-01T12:00:00Z
+    $ref: ../common/iso_timestamp.yaml
+  readOnly: true
+required:
+  - displayName
+  - cardNumber
+  - expiryMonth
+  - expiryYear
+  - cvv
   

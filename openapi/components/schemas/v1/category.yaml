@@ -23,7 +23,7 @@ properties:
   dateCreated:
     $ref: ../common/iso_timestamp.yaml
   dateUpdated:
-    $ref: ../common/iso_timestamp.yaml    
+    $ref: ../common/iso_timestamp.yaml
 required:
   - category
   - description
