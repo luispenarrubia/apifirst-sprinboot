@@ -6,7 +6,12 @@ properties:
     $ref: order_customer.yaml
   orderStatus:
     type: string
-    enum: [NEW, HOLD, SHIPPED, DELIVERED, CLOSED]
+    enum: 
+      - NEW
+      - HOLD
+      - SHIPPED
+      - DELIVERED
+      - CLOSED
     default: NEW
   shipmentInfo:
     type: 
