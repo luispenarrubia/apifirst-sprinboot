@@ -24,3 +24,6 @@ properties:
     maxLength: 25
     description: The suffix of the name.
     example: Jr.
+required: 
+  -  firstName
+  -  lastName
