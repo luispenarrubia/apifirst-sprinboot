@@ -28,7 +28,6 @@ properties:
     $ref: ../common/iso_timestamp.yaml
   dateUpdated:
     $ref: ../common/iso_timestamp.yaml
-  readOnly: true
 required:
   - displayName
   - cardNumber
