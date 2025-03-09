@@ -6,18 +6,33 @@ on:
       - develop
       
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
-        name: Checkout repository
-      - run: ./make.sh
-        name: Build API Documentation
-      - uses: peaceiris/actions-gh-pages@v4
-        name: Deploy to GitHub Pages
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: .
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build API Documentation
+        run: |
+          chmod +x ./make.sh
+          ./make.sh
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
           force_orphan: true
-          exclude_assets: '.github,openapi,.redocly.yaml,make.sh'
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
           
