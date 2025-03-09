@@ -3,10 +3,22 @@ apis:
   sample@v1: 
     root: openapi/openapi.yaml
 extends:
-  - recommended
+  - recommended-strict
+# rules:
+#   no-unused-components: error
+#   no-server-example.com: off
 rules:
+  info-license: warn
   no-unused-components: error
   no-server-example.com: off
+  operation-singular-tag: warn
+  boolean-parameter-prefixes:
+    severity: error
+    prefixes: ['can', 'is', 'has']
+catalog:
+  acme-catalog:
+    title: Acme API catalog
+    description: Discover how our APIs can support your business.
 theme:
   openapi:
     htmlTemplate: ./docs/index.html
