@@ -1,0 +1,678 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: API First with Springboot
+  termsOfService: https://example.com/terms/
+  contact:
+    name: Luis Peñarrubia Peñalba
+    email: luis.penarrubia@gmail.com
+    url: http://example.com/contact
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://redocly.github.io/openapi-template/logo.png
+    altText: OpenAPI example logo
+  description: |
+    This is an **example** API to demonstrate features of the OpenAPI specification.
+servers:
+  - url: https://{tenant}/api/v1
+    variables:
+      tenant:
+        default: www
+        description: Your tenant id
+  - url: https://example.com/api/v1
+security:
+  - basic_auth: []
+tags:
+  - name: Customer
+    description: Operations about customers.
+  - name: Product
+    description: Operations about products.
+  - name: Order
+    description: Operations about orders.
+externalDocs:
+  description: Find out how to create a GitHub repo for your OpenAPI definition.
+  url: https://github.com/Redocly/create-openapi-repo
+paths:
+  /v1/customers:
+    get:
+      tags:
+        - Customer
+      summary: Get a list of customers
+      description: Get a list of customers.
+      operationId: listCustomers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer_list'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    post:
+      tags:
+        - Customer
+      summary: Create a new customer
+      description: Create a new customer.
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customer'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              description: The location of the new customer.
+              schema:
+                type: string
+                format: uri
+                example: /v1/customers/123e4567-e89b-12d3-a456-426614174000
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /v1/customers/{customerId}:
+    get:
+      tags:
+        - Customer
+      summary: Get a customer by its ID
+      description: Get a customer by its ID.
+      operationId: getCustomerById
+      parameters:
+        - $ref: '#/components/parameters/customer_id'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /v1/products:
+    get:
+      tags:
+        - Product
+      summary: Get a list of products
+      description: Get a list of products.
+      operationId: listProducts
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product_list'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /v1/products/{productId}:
+    get:
+      tags:
+        - Product
+      summary: Get a product by its ID
+      description: Get a product by its ID.
+      operationId: getProductById
+      parameters:
+        - $ref: '#/components/parameters/product_id'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /v1/orders:
+    get:
+      tags:
+        - Order
+      summary: Get a list of orders
+      description: Get a list of orders.
+      operationId: listOrders
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order_list'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /v1/orders/{orderId}:
+    get:
+      tags:
+        - Order
+      summary: Get an order by its ID
+      description: Get an order by its ID.
+      operationId: getOrderById
+      parameters:
+        - $ref: '#/components/parameters/order_id'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+components:
+  securitySchemes:
+    main_auth:
+      description: Example description text of the OAuth2 scheme.
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://example.com/api/oauth/dialog
+          scopes:
+            read:users: read user info
+            write:users: modify or remove users
+    api_key:
+      description: Example description text of the API key scheme.
+      type: apiKey
+      in: header
+      name: api_key
+    basic_auth:
+      type: http
+      scheme: basic
+  schemas:
+    uuid_id:
+      type:
+        - string
+        - 'null'
+      format: uuid
+      description: System generated unique identifier for the resource.
+      readOnly: true
+    name:
+      type: object
+      properties:
+        prefix:
+          type:
+            - string
+            - 'null'
+          minLength: 0
+          maxLength: 25
+          description: The prefix of the name.
+          example: Mr.
+        firstName:
+          type: string
+          minLength: 3
+          maxLength: 100
+          description: The first name.
+          example: Luis
+        lastName:
+          type: string
+          minLength: 3
+          maxLength: 100
+          description: The last name.
+          example: Peñarrubia
+        suffix:
+          type:
+            - string
+            - 'null'
+          minLength: 0
+          maxLength: 25
+          description: The suffix of the name.
+          example: Jr.
+      required:
+        - firstName
+        - lastName
+    iso_timestamp:
+      type:
+        - string
+        - 'null'
+      format: date-time
+      description: ISO 8601 Timestamp. Date Created and Date Updated are system managed values, should not be sent in request payloads - will be ignored.
+      example: '2022-08-22T11:43:06-07:00'
+      title: ISO Timestamp
+      readOnly: true
+    address:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid_id'
+        addressLine1:
+          type: string
+          minLength: 3
+          maxLength: 100
+          description: The first line of the address.
+          example: 123 Main St.
+        addressLine2:
+          type:
+            - string
+            - 'null'
+          minLength: 3
+          maxLength: 100
+          description: The second line of the address.
+          example: Suite 200
+        city:
+          type: string
+          minLength: 3
+          maxLength: 100
+          description: The city of the address.
+          example: Springfield
+        state:
+          type: string
+          minLength: 2
+          maxLength: 2
+          description: The 2 character state code of the address.
+          example: IL
+        zipCode:
+          type: string
+          minLength: 4
+          maxLength: 10
+          description: The zip code of the address.
+          example: 62701
+        dateCreated:
+          $ref: '#/components/schemas/iso_timestamp'
+        dateUpdated:
+          $ref: '#/components/schemas/iso_timestamp'
+      required:
+        - addressLine1
+        - city
+        - state
+        - zipCode
+    payment_method:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid_id'
+        displayName:
+          type: string
+          minLength: 3
+          maxLength: 100
+          description: The display name of the payment method.
+          example: Visa
+        cardNumber:
+          type: integer
+          description: The card number of the payment method.
+          example: 4111111111111111
+        expiryMonth:
+          type: integer
+          description: The expiry month of the payment method.
+          example: 12
+        expiryYear:
+          type: integer
+          description: The expiry year of the payment method.
+          example: 2022
+        cvv:
+          type: integer
+          description: The CVV of the payment method.
+          example: 123
+        dateCreated:
+          $ref: '#/components/schemas/iso_timestamp'
+        dateUpdated:
+          $ref: '#/components/schemas/iso_timestamp'
+      required:
+        - displayName
+        - cardNumber
+        - expiryMonth
+        - expiryYear
+        - cvv
+    customer:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid_id'
+        name:
+          $ref: '#/components/schemas/name'
+        shipToAddress:
+          $ref: '#/components/schemas/address'
+        billToAddress:
+          $ref: '#/components/schemas/address'
+        email:
+          type:
+            - string
+            - 'null'
+          format: email
+          minLength: 3
+          maxLength: 255
+          description: The email address of the customer.
+          example: user@domain.com
+        phone:
+          type:
+            - string
+            - 'null'
+          minLength: 7
+          maxLength: 15
+          description: The phone number of the customer.
+          example: 555-555-5555
+        paymentMethods:
+          type: array
+          items:
+            $ref: '#/components/schemas/payment_method'
+        dateCreated:
+          $ref: '#/components/schemas/iso_timestamp'
+        dateUpdated:
+          $ref: '#/components/schemas/iso_timestamp'
+      required:
+        - name
+        - shipToAddress
+        - billToAddress
+    customer_list:
+      type: array
+      items:
+        $ref: '#/components/schemas/customer'
+    Problem:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+      description: The Problem Details JSON Object [[RFC7807](https://tools.ietf.org/html/rfc7807)].
+      properties:
+        type:
+          type: string
+          description: A URI reference [[RFC3986](https://tools.ietf.org/html/rfc3986)] that identifies the problem type. It should provide human-readable documentation for the problem type. When this member is not present, its value is assumed to be "about:blank".
+          format: uri
+        title:
+          type: string
+          description: A short, human-readable summary of the problem type. It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.
+        status:
+          type: integer
+          description: The HTTP status code.
+          minimum: 400
+          maximum: 599
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem.
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced.
+    dimensions:
+      type: object
+      properties:
+        length:
+          type: integer
+          description: The length of the product
+          minimum: 1
+          maximum: 999
+          example: 10
+        width:
+          type: integer
+          description: The width of the product
+          minimum: 1
+          maximum: 999
+          example: 10
+        height:
+          type: integer
+          description: The height of the product
+          minimum: 1
+          maximum: 999
+          example: 10
+      description: The dimentions of the product
+      required:
+        - length
+        - width
+        - height
+    category:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid_id'
+        category:
+          type: string
+          description: The category of the product
+          minLength: 3
+          maxLength: 25
+          example: Electronics
+        description:
+          type: string
+          description: The description of the category
+          minLength: 3
+          maxLength: 255
+          example: Electronics and Gadgets
+        category_code:
+          type: string
+          description: The category code of the product
+          minLength: 3
+          maxLength: 25
+          example: ELECTRONICS
+        dateCreated:
+          $ref: '#/components/schemas/iso_timestamp'
+        dateUpdated:
+          $ref: '#/components/schemas/iso_timestamp'
+      required:
+        - category
+        - description
+        - category_code
+    image:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid_id'
+        url:
+          type: string
+          format: url
+          description: The url of the image
+          minLength: 5
+          maxLength: 500
+          example: https://springframework.guru/wp-content/uploads/2019/08/spring-framework-guru-logo.jpg
+        altText:
+          type:
+            - string
+            - 'null'
+          minLength: 3
+          maxLength: 255
+        dateCreated:
+          $ref: '#/components/schemas/iso_timestamp'
+        dateUpdated:
+          $ref: '#/components/schemas/iso_timestamp'
+      required:
+        - url
+    product:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid_id'
+        description:
+          type: string
+          description: The description of the product
+          minLength: 3
+          maxLength: 255
+        dimensions:
+          $ref: '#/components/schemas/dimensions'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/category'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/image'
+        price:
+          type: string
+          pattern: ^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$
+        cost:
+          type: string
+          pattern: ^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$
+        dateCreated:
+          $ref: '#/components/schemas/iso_timestamp'
+        dateUpdated:
+          $ref: '#/components/schemas/iso_timestamp'
+      required:
+        - description
+        - price
+    product_list:
+      type: array
+      items:
+        $ref: '#/components/schemas/product'
+    order_customer:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid_id'
+        name:
+          $ref: '#/components/schemas/name'
+        shipToAddress:
+          $ref: '#/components/schemas/address'
+        billToAddress:
+          $ref: '#/components/schemas/address'
+        email:
+          type:
+            - string
+            - 'null'
+          description: The email address of the customer
+        phone:
+          type: string
+          description: The phone number of the customer
+        selectedPaymentMethod:
+          $ref: '#/components/schemas/payment_method'
+    order_product:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier of the product
+        description:
+          type: string
+          description: The description of the product
+        price:
+          type: string
+          pattern: ^-?(?:0|[1-9]\d{0,2}(?:,?\d{3})*)(?:\.\d+)?$
+    order_line:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid_id'
+        product:
+          $ref: '#/components/schemas/order_product'
+        orderQuantity:
+          type: integer
+          description: The quantity of the product in the order
+          minimum: 1
+          maximum: 10000
+          example: 2
+        shipQuantity:
+          type:
+            - integer
+            - 'null'
+          description: The quantity of the product shipped
+          minimum: 1
+          maximum: 10000
+          example: 2
+        dateCreated:
+          $ref: '#/components/schemas/iso_timestamp'
+        dateUpdated:
+          $ref: '#/components/schemas/iso_timestamp'
+      required:
+        - product
+        - orderQuantity
+    order:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid_id'
+        customer:
+          $ref: '#/components/schemas/order_customer'
+        orderStatus:
+          type: string
+          enum:
+            - NEW
+            - HOLD
+            - SHIPPED
+            - DELIVERED
+            - CLOSED
+          default: NEW
+        shipmentInfo:
+          type:
+            - string
+            - 'null'
+          minLength: 1
+          maxLength: 255
+        orderLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/order_line'
+          description: The order lines of the order
+        dateCreated:
+          $ref: '#/components/schemas/iso_timestamp'
+        dateUpdated:
+          $ref: '#/components/schemas/iso_timestamp'
+      required:
+        - customer
+        - orderStatus
+        - orderLines
+    order_list:
+      type: array
+      items:
+        $ref: '#/components/schemas/order'
+  parameters:
+    customer_id:
+      name: customerId
+      in: path
+      description: The ID value of the customer. This value is a UUID.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    product_id:
+      name: productId
+      in: path
+      description: The ID of the product to retrieve
+      required: true
+      schema:
+        type: string
+        format: uuid
+    order_id:
+      name: orderId
+      in: path
+      description: The ID of the order to retrieve
+      required: true
+      schema:
+        type: string
+        format: uuid

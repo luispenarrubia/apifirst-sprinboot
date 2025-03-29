@@ -1,0 +1,35 @@
+# See https://redocly.com/docs/cli/configuration/ for more information.
+apis:
+  sample@v1: 
+    root: openapi/openapi.yaml
+extends:
+  - recommended-strict
+# rules:
+#   no-unused-components: error
+#   no-server-example.com: off
+rules:
+  info-license: warn
+  no-unused-components: error
+  no-server-example.com: off
+  operation-singular-tag: warn
+  boolean-parameter-prefixes:
+    severity: error
+    prefixes: ['can', 'is', 'has']
+catalog:
+  acme-catalog:
+    title: Acme API catalog
+    description: Discover how our APIs can support your business.
+theme:
+  openapi:
+    htmlTemplate: ./docs/index.html
+    theme:
+      colors:
+        primary:
+          main: "#32329f"
+    generateCodeSamples:
+      languages:  # Array of language config objects; indicates in which languages to generate code samples.
+        - lang: curl
+        - lang: Node.js
+        - lang: JavaScript
+        - lang: PHP
+        - lang: Python
