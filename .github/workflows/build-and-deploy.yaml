@@ -8,17 +8,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-      name: Checkout repository
-    - name: Build Docs
-      run: ./make.sh
-    - name: Deploy to Github pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_dir: . 
-        force_orphan: true
-        exclude_assets: '.github,openapi,.redocly.yaml,make.sh'
+      - uses: actions/checkout@v4
+        name: Checkout repository
+      - name: Grant execute permission to make.sh
+        run: chmod +x ./make.sh
+      - name: Build Docs
+        run: ./make.sh
+      - name: Deploy to Github pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: .
+          force_orphan: true
+          exclude_assets: '.github,openapi,.redocly.yaml,make.sh'
           
