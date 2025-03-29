@@ -1,9 +1,8 @@
 #!/bin/bash
 
-echo "Building API documentation..."
+echo "Building API Docs"
 
-# Build the API documentation
-npx @redocly/cli bundle openapi/openapi.yaml -o dist/bundle.yaml && \
-npx @redocly/cli build-docs dist/bundle.yaml -o dist/index.html
+# Bundle the API docs
 
-echo "API documentation has been built successfully!"
+npx @redocly/cli bundle ./openapi/openapi.yaml -o sfgoa3.yaml && \
+npx @redocly/cli build-docs sfgoa3.yaml -o index.html
