@@ -1,38 +1,25 @@
-name: Build and Deploy API Documentation
+name: Build and Deploy API Docs
 
 on:
   push:
     branches:
       - develop
-      
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+        name: Checkout repository
+      - name: Grant execute permission to make.sh
+        run: chmod +x ./make.sh
+      - name: Build Docs
+        run: ./make.sh
+      - name: Deploy to Github pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build API Documentation
-        run: |
-          chmod +x ./make.sh
-          ./make.sh
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: .
           force_orphan: true
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
+          exclude_assets: '.github,openapi,.redocly.yaml,make.sh'
           
