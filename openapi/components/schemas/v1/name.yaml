@@ -13,13 +13,13 @@ properties:
     minLength: 3
     maxLength: 100
     description: The first name.
-    example: John
+    example: Luis
   lastName:
     type: string
     minLength: 3
     maxLength: 100
     description: The last name.
-    example: Doe
+    example: Peñarrubia
   suffix:
     type: 
       - string
