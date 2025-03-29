@@ -3,7 +3,7 @@ name: Build and Deploy API Docs
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
